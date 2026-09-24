@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Mate</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #1f2937;
+    }
+
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 30px;
+    }
+
+    header p {
+      margin-top: 6px;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .welcome {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .welcome h2 {
+      color: #2563eb;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      margin: 25px 0 15px;
+      font-size: 22px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card h3 {
+      color: #2563eb;
+      margin-bottom: 8px;
+    }
+
+    .button {
+      display: inline-block;
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 12px;
+      text-decoration: none;
+    }
+
+    .button:hover {
+      background: #1d4ed8;
+    }
+
+    .planner {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      margin-bottom: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+    }
+
+    .task {
+      background: #eff6ff;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      border-left: 4px solid #2563eb;
+    }
+
+    .quiz-box {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    }
+
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #d1d5db;
+      background: #f9fafb;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .quiz-option:hover {
+      background: #eff6ff;
+    }
+
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 40px;
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: white;
+      padding: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    nav button {
+      border: none;
+      background: transparent;
+      color: #2563eb;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 8px 12px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .profile {
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    }
+
+    .profile-icon {
+      width: 80px;
+      height: 80px;
+      background: #2563eb;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+      font-size: 35px;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 24px;
+      }
+
+      .container {
+        padding: 12px;
+      }
+
+      .section-title {
+        font-size: 19px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>📚 Study Mate</h1>
+  <p>Your personal learning companion</p>
+</header>
+
+<nav>
+  <button onclick="showPage('home')">Home</button>
+  <button onclick="showPage('subjects')">Subjects</button>
+  <button onclick="showPage('quiz')">Quiz</button>
+  <button onclick="showPage('planner')">Planner</button>
+  <button onclick="showPage('assistant')">Assistant</button>
+  <button onclick="showPage('profile')">Profile</button>
+</nav>
+
+<div class="container">
+
+  <!-- HOME -->
+  <section id="home" class="page active">
+
+    <div class="welcome">
+      <h2>Welcome to Study Mate 👋</h2>
+      <p>
+        Study Mate helps students organize their studies,
+        practice questions, track their progress and stay focused.
+      </p>
+    </div>
+
+    <h2 class="section-title">Your Subjects</h2>
+
+    <div class="cards">
+
+      <div class="card" onclick="showPage('subjects')">
+        <h3>🧬 Biology</h3>
+        <p>Explore biology topics and practice questions.</p>
+      </div>
+
+      <div class="card" onclick="showPage('subjects')">
+        <h3>🧪 Chemistry</h3>
+        <p>Learn chemistry concepts and test your knowledge.</p>
+      </div>
+
+      <div class="card" onclick="showPage('subjects')">
+        <h3>📐 Mathematics</h3>
+        <p>Practice calculations and mathematical concepts.</p>
+      </div>
+
+      <div class="card" onclick="showPage('subjects')">
+        <h3>⚡ Physics</h3>
+        <p>Understand physics concepts and solve problems.</p>
+      </div>
+
+      <div class="card" onclick="showPage('subjects')">
+        <h3>💻 ICT</h3>
+        <p>Improve your computer and technology skills.</p>
+      </div>
+
+    </div>
+
+    <h2 class="section-title">Quick Actions</h2>
+
+    <div class="cards">
+
+      <div class="card">
+        <h3>📝 Take a Quiz</h3>
+        <p>Test yourself with practice questions.</p>
+        <button class="button" onclick="showPage('quiz')">
+          Start Quiz
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>📅 Study Planner</h3>
+        <p>Plan your study activities.</p>
+        <button class="button" onclick="showPage('planner')">
+          Open Planner
+        </button>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- SUBJECTS -->
+  <section id="subjects" class="page">
+
+    <h2 class="section-title">📚 Subjects</h2>
+
+    <div class="cards">
+
+      <div class="card">
+        <h3>🧬 Biology</h3>
+        <p>Cells, genetics, transport, ecology and human biology.</p>
+        <button class="button"
+          onclick="alert('Biology materials coming soon!')">
+          View Materials
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>🧪 Chemistry</h3>
+        <p>Atomic structure, bonding, reactions and organic chemistry.</p>
+        <button class="button"
+          onclick="alert('Chemistry materials coming soon!')">
+          View Materials
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>📐 Mathematics</h3>
+        <p>Algebra, calculus, geometry and statistics.</p>
+        <button class="button"
+          onclick="alert('Mathematics materials coming soon!')">
+          View Materials
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>⚡ Physics</h3>
+        <p>Mechanics, electricity, waves and modern physics.</p>
+        <button class="button"
+          onclick="alert('Physics materials coming soon!')">
+          View Materials
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>💻 ICT</h3>
+        <p>Computer systems, programming and digital skills.</p>
+        <button class="button"
+          onclick="alert('ICT materials coming soon!')">
+          View Materials
+        </button>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- QUIZ -->
+  <section id="quiz" class="page">
+
+    <h2 class="section-title">📝 Practice Quiz</h2>
+
+    <div class="quiz-box">
+
+      <p><strong>Question 1:</strong></p>
+
+      <p>
+        Which organelle is mainly responsible for producing ATP
+        in a cell?
+      </p>
+
+      <button class="quiz-option"
+        onclick="checkAnswer(this, false)">
+        A. Ribosome
+      </button>
+
+      <button class="quiz-option"
+        onclick="checkAnswer(this, true)">
+        B. Mitochondrion
+      </button>
+
+      <button class="quiz-option"
+        onclick="checkAnswer(this, false)">
+        C. Nucleus
+      </button>
+
+      <button class="quiz-option"
+        onclick="checkAnswer(this, false)">
+        D. Golgi apparatus
+      </button>
+
+      <div id="quizResult" class="result"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PLANNER -->
+  <section id="planner" class="page">
+
+    <h2 class="section-title">📅 Study Planner</h2>
+
+    <div class="planner">
+
+      <label>Study Task</label>
+
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="e.g. Revise transport in humans">
+
+      <label>Subject</label>
+
+      <select id="subjectInput">
+        <option>Biology</option>
+        <option>Chemistry</option>
+        <option>Mathematics</option>
+        <option>Physics</option>
+        <option>ICT</option>
+      </select>
+
+      <button class="button" onclick="addTask()">
+        Add Task
+      </button>
+
+      <div id="taskList"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ASSISTANT -->
+  <section id="assistant" class="page">
+
+    <h2 class="section-title">🤖 Study Assistant</h2>
+
+    <div class="planner">
+
+      <p>
+        Ask Study Mate a simple study question.
+      </p>
+
+      <input
+        type="text"
+        id="questionInput"
+        placeholder="Type your question...">
+
+      <button class="button" onclick="askAssistant()">
+        Ask
+      </button>
+
+      <div id="assistantAnswer" class="task"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROFILE -->
+  <section id="profile" class="page">
+
+    <h2 class="section-title">👤 Profile</h2>
+
+    <div class="profile">
+
+      <div class="profile-icon">
+        👨‍🎓
+      </div>
+
+      <br>
+
+      <h2>Student</h2>
+
+      <p>Welcome to your Study Mate profile.</p>
+
+      <button class="button"
+        onclick="alert('Profile editing coming soon!')">
+        Edit Profile
+      </button>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<footer>
+  <p>© 2026 Study Mate | Learn • Practice • Improve</p>
+</footer>
+
+
+<script>
+
+  // PAGE NAVIGATION
+
+  function showPage(pageId) {
+
+    const pages = document.querySelectorAll(".page");
+
+    pages.forEach(function(page) {
+      page.classList.remove("active");
+    });
+
+    document.getElementById(pageId).classList.add("active");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+
+  // QUIZ
+
+  function checkAnswer(button, correct) {
+
+    const result = document.getElementById("quizResult");
+
+    if (correct) {
+
+      result.textContent = "✅ Correct! Excellent work.";
+
+    } else {
+
+      result.textContent = "❌ Not quite. Try again.";
+
+    }
+
+  }
+
+
+  // STUDY PLANNER
+
+  function addTask() {
+
+    const taskInput =
+      document.getElementById("taskInput");
+
+    const subjectInput =
+      document.getElementById("subjectInput");
+
+    const taskList =
+      document.getElementById("taskList");
+
+    const task = taskInput.value.trim();
+
+    if (task === "") {
+
+      alert("Please enter a study task.");
+
+      return;
+
+    }
+
+    const newTask =
+      document.createElement("div");
+
+    newTask.className = "task";
+
+    newTask.innerHTML =
+      "<strong>" +
+      subjectInput.value +
+      "</strong><br>" +
+      task;
+
+    taskList.appendChild(newTask);
+
+    taskInput.value = "";
+
+  }
+
+
+  // STUDY ASSISTANT
+
+  function askAssistant() {
+
+    const question =
+      document.getElementById("questionInput").value.trim();
+
+    const answer =
+      document.getElementById("assistantAnswer");
+
+    if (question === "") {
+
+      answer.textContent =
+        "Please type a question first.";
+
+      return;
+
+    }
+
+    answer.innerHTML =
+      "📚 Keep learning! For this question, " +
+      "try breaking the topic into smaller parts, " +
+      "review your notes, and practice with examples.";
+
+  }
+
+</script>
+
+</body>
+</html>
